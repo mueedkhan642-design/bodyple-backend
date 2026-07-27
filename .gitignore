@@ -1,0 +1,11 @@
+# Dependency directory
+node_modules/
+
+# Environment variables (Database Passwords & Secret Keys)
+.env
+
+# Logs & temp files
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.DS_Store
