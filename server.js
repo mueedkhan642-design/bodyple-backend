@@ -294,6 +294,10 @@ app.get('/get-nutrition-config', async (req, res) => {
 
 app.get('/seed-nutrition-data', async (req, res) => {
     try {
+        if (mongoose.connection.readyState !== 1) {
+            await mongoose.connect(process.env.MONGO_URL);
+        }
+
         await Target.deleteMany({});
         await Food.deleteMany({});
         await DietRecommend.deleteMany({});
@@ -345,10 +349,10 @@ app.get('/seed-nutrition-data', async (req, res) => {
 
         res.json({ message: "Data seeded successfully to MongoDB!" });
     } catch (err) {
-        res.status(500).json({ error: "Seeding failed" });
+        console.error("Seeding error:", err);
+        res.status(500).json({ error: "Seeding failed", details: err.message });
     }
 });
-
 app.post('/forgot-password', async (req, res) => {
     try {
         const { email, newPassword } = req.body;
