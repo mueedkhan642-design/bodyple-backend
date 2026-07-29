@@ -75,11 +75,12 @@ app.post('/save-diet', async (req, res) => {
 
 // GET DIET ROUTE 
 app.get('/get-diet', async (req, res) => {
-    const { userId } = req.query;
-    if (!userId) {
-        return res.status(400).json({ error: "User ID is required" });
-    }
+
     try {
+        const { userId } = req.query;
+        if (!userId) {
+            return res.status(400).json({ error: "User ID is required" });
+        }
         const diet = await Diet.findOne({ userId: userId });
         res.json({
             data: diet ? diet.weeklyDiet : [],
